@@ -2,7 +2,9 @@
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController" customModule="Base" customModuleProvider="target">
@@ -14,34 +16,65 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="aqP-kV-a6Q">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <rect key="contentRect" x="551" y="321" width="657" height="563"/>
+            <rect key="contentRect" x="551" y="321" width="648" height="549"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" wantsLayer="YES" id="9Wi-q9-zSy">
-                <rect key="frame" x="0.0" y="0.0" width="657" height="563"/>
+                <rect key="frame" x="0.0" y="0.0" width="680" height="578"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Efk-Jx-csW">
-                        <rect key="frame" x="18" y="17" width="622" height="26"/>
-                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="aR5-zg-7Pg">
-                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
-                            <menu key="menu" id="Zkf-J6-9vK"/>
-                        </popUpButtonCell>
-                    </popUpButton>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="f0c-B3-6Ur">
-                        <rect key="frame" x="20" y="63" width="608" height="480"/>
+                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fkc-KQ-YQe">
+                        <rect key="frame" x="20" y="20" width="640" height="538"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="f0c-B3-6Ur">
+                                <rect key="frame" x="0.0" y="58" width="640" height="480"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="640" id="FCu-fC-KSB"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="480" id="IHk-uP-gNS"/>
+                                    <constraint firstAttribute="width" secondItem="f0c-B3-6Ur" secondAttribute="height" multiplier="4:3" id="wKM-yA-77k"/>
+                                </constraints>
+                            </customView>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Efk-Jx-csW">
+                                <rect key="frame" x="-2" y="26" width="645" height="26"/>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="aR5-zg-7Pg">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" showsStateColumn="NO" id="Zkf-J6-9vK"/>
+                                </popUpButtonCell>
+                            </popUpButton>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lZA-Ge-Pf3">
+                                <rect key="frame" x="-6" y="-7" width="129" height="32"/>
+                                <buttonCell key="cell" type="push" title="Capture Image" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XCo-vs-Pr5">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="captureImageOnClickWithSender:" target="5Hh-Ca-Gfg" id="TXv-wz-S9Y"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <constraints>
-                            <constraint firstAttribute="height" constant="480" id="t6M-NU-ysz"/>
+                            <constraint firstAttribute="trailing" secondItem="Efk-Jx-csW" secondAttribute="trailing" id="GPm-nP-equ"/>
+                            <constraint firstItem="Efk-Jx-csW" firstAttribute="leading" secondItem="Fkc-KQ-YQe" secondAttribute="leading" id="hgL-XX-eBh"/>
+                            <constraint firstAttribute="trailing" secondItem="f0c-B3-6Ur" secondAttribute="trailing" id="s03-vI-S5v"/>
+                            <constraint firstItem="f0c-B3-6Ur" firstAttribute="leading" secondItem="Fkc-KQ-YQe" secondAttribute="leading" id="ydn-WD-vHs"/>
                         </constraints>
-                    </customView>
+                        <visibilityPriorities>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                            <integer value="1000"/>
+                        </visibilityPriorities>
+                        <customSpacing>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                            <real value="3.4028234663852886e+38"/>
+                        </customSpacing>
+                    </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="f0c-B3-6Ur" secondAttribute="trailing" constant="29" id="7fl-RX-RcY"/>
-                    <constraint firstItem="Efk-Jx-csW" firstAttribute="leading" secondItem="9Wi-q9-zSy" secondAttribute="leading" constant="20" symbolic="YES" id="S4y-8G-XY0"/>
-                    <constraint firstItem="Efk-Jx-csW" firstAttribute="top" secondItem="f0c-B3-6Ur" secondAttribute="bottom" constant="22" id="eCY-kQ-OZd"/>
-                    <constraint firstItem="f0c-B3-6Ur" firstAttribute="top" secondItem="9Wi-q9-zSy" secondAttribute="top" constant="20" id="iQo-IZ-KN1"/>
-                    <constraint firstItem="f0c-B3-6Ur" firstAttribute="leading" secondItem="9Wi-q9-zSy" secondAttribute="leading" constant="20" id="tMa-hN-sSK"/>
-                    <constraint firstAttribute="trailing" secondItem="Efk-Jx-csW" secondAttribute="trailing" constant="20" symbolic="YES" id="vzO-9J-BOb"/>
+                    <constraint firstItem="Fkc-KQ-YQe" firstAttribute="top" secondItem="9Wi-q9-zSy" secondAttribute="top" constant="20" symbolic="YES" id="FIq-m9-K9V"/>
+                    <constraint firstItem="Fkc-KQ-YQe" firstAttribute="leading" secondItem="9Wi-q9-zSy" secondAttribute="leading" constant="20" symbolic="YES" id="QxV-W4-BJs"/>
+                    <constraint firstAttribute="trailing" secondItem="Fkc-KQ-YQe" secondAttribute="trailing" constant="20" symbolic="YES" id="XwH-Fw-fTa"/>
+                    <constraint firstAttribute="bottom" secondItem="Fkc-KQ-YQe" secondAttribute="bottom" constant="20" symbolic="YES" id="bVD-If-FdY"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="921.5" y="222.5"/>

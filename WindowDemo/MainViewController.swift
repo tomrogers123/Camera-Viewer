@@ -8,7 +8,8 @@ class MainViewController: NSViewController {
   @IBOutlet var avaliableCamerasPopupButton: NSPopUpButton!
   @IBOutlet weak var viewContainingVideo: NSView!
   private let avaliableCameras = AVCaptureDevice.devices(for: .video)
-  private var cameraSession = AVCaptureSession()
+  private let cameraSession = AVCaptureSession()
+  private let output = AVCaptureStillImageOutput()
   private var selectedDevice: AVCaptureDevice!
   
   // MARK: Update UI
@@ -19,25 +20,47 @@ class MainViewController: NSViewController {
     }
   }
   
+  
+  private func captureImageAndSave() {
+    let connection = output.connections.last!
+    output.captureStillImageAsynchronously(from: connection) { (data, problem) in
+      
+      if problem == nil {
+        let jpegData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(data!)
+        let path = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Desktop").appendingPathComponent("image").appendingPathExtension("jpg")
+        do {
+          try jpegData?.write(to: path)
+        } catch let errorSaving {
+          print(errorSaving)
+        }
+      }
+    }
+  }
+  
   private func prepareSessionAndShowPreview() {
     for device in avaliableCameras {
       if device.localizedName == avaliableCamerasPopupButton.selectedItem?.title {
         selectedDevice = device
       }
     }
-        
+    
     do {
       try cameraSession.addInput(AVCaptureDeviceInput(device: selectedDevice))
     } catch let error {
       print(error.localizedDescription)
     }
     
-    viewContainingVideo.layer = AVCaptureVideoPreviewLayer(session: cameraSession)
+    let preview = AVCaptureVideoPreviewLayer(session: cameraSession)
+    preview.videoGravity = .resizeAspectFill
+    
+    viewContainingVideo.layer = preview
+    
     
     if cameraSession.canSetSessionPreset(.vga640x480) {
       cameraSession.sessionPreset = .vga640x480
     }
     
+    cameraSession.addOutput(output)
     cameraSession.startRunning()
   }
   
@@ -45,6 +68,10 @@ class MainViewController: NSViewController {
     super.viewDidLoad()
     self.addDevicestoList()
     self.prepareSessionAndShowPreview()
+  }
+  
+  @IBAction func captureImageOnClick(sender: NSButton) {
+    captureImageAndSave()
   }
   
 }
