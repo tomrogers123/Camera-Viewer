@@ -20,22 +20,7 @@ class MainViewController: NSViewController {
     }
   }
   
-  
-  private func captureImageAndSave() {
-    let connection = output.connections.last!
-    output.captureStillImageAsynchronously(from: connection) { (data, problem) in
-      
-      if problem == nil {
-        let jpegData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(data!)
-        let path = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Desktop").appendingPathComponent("image").appendingPathExtension("jpg")
-        do {
-          try jpegData?.write(to: path)
-        } catch let errorSaving {
-          print(errorSaving)
-        }
-      }
-    }
-  }
+  // MARK: Overall Session Configuration
   
   private func prepareSessionAndShowPreview() {
     for device in avaliableCameras {
@@ -62,6 +47,24 @@ class MainViewController: NSViewController {
     
     cameraSession.addOutput(output)
     cameraSession.startRunning()
+  }
+  
+  // MARK: Handle Saving Images
+  
+  private func captureImageAndSave() {
+    let connection = output.connections.last!
+    output.captureStillImageAsynchronously(from: connection) { (data, problem) in
+      
+      if problem == nil {
+        let jpegData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(data!)
+        let path = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Desktop").appendingPathComponent("image").appendingPathExtension("jpg")
+        do {
+          try jpegData?.write(to: path)
+        } catch let errorSaving {
+          print(errorSaving)
+        }
+      }
+    }
   }
   
   override func viewDidLoad() {
